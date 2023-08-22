@@ -27,6 +27,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 		HeaderOrder:     receiver.HeaderOrder,
 		Timeout:         receiver.Timeout,
 		DisableRedirect: receiver.DisableRedirect,
+		Headers:         make(map[string]string),
 	}
 
 	if req.Body != nil {
