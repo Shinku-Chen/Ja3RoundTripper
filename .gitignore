@@ -1,0 +1,6 @@
+**/.idea/
+**/logs/
+**/.nfs*
+**/go.sum
+**/.apollo
+**/.DS_Store
