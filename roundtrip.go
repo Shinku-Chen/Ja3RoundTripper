@@ -1,4 +1,4 @@
-package main
+package Ja3RoundTripper
 
 import (
 	"github.com/Danny-Dasilva/CycleTLS/cycletls"
