@@ -38,7 +38,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 		}
 	}
 	if receiver.Proxy != nil {
-		if p, e := receiver.Proxy(req); e == nil {
+		if p, e := receiver.Proxy(req); e == nil && p != nil {
 			options.Proxy = p.String()
 		}
 	}
