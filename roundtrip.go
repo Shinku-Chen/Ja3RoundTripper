@@ -1,6 +1,7 @@
 package Ja3RoundTripper
 
 import (
+	"errors"
 	"github.com/Danny-Dasilva/CycleTLS/cycletls"
 	"io"
 	"net/http"
@@ -66,20 +67,30 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	} else {
 		length = int64(len(response.Body))
 	}
-	return &http.Response{
-		Status:        "",
-		StatusCode:    response.Status,
-		Header:        headers,
-		Body:          io.NopCloser(strings.NewReader(response.Body)),
-		ContentLength: length,
-		//TransferEncoding: nil,
-		//Close:            false,
-		//Uncompressed:     false,
-		//Trailer:          nil,
-		//Request:          nil,
-		//TLS:              nil,
-		//Proto:            "",
-		//ProtoMajor:       0,
-		//ProtoMinor:       0,
-	}, nil
+	{
+
+		responseBody := &http.Response{
+			Status:        "",
+			StatusCode:    response.Status,
+			Header:        headers,
+			Body:          io.NopCloser(strings.NewReader(response.Body)),
+			ContentLength: length,
+			//TransferEncoding: nil,
+			//Close:            false,
+			//Uncompressed:     false,
+			//Trailer:          nil,
+			//Request:          nil,
+			//TLS:              nil,
+			//Proto:            "",
+			//ProtoMajor:       0,
+			//ProtoMinor:       0,
+		}
+
+		if response.Status != 200 {
+			return responseBody, errors.New(response.Body)
+		} else {
+			return responseBody, nil
+		}
+	}
+
 }
