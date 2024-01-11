@@ -48,9 +48,9 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	}
 
 	response, err := client.Do(req.URL.String(), options, req.Method)
-	if err != nil {
-		return nil, err
-	}
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	headers := make(http.Header)
 
@@ -85,7 +85,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 			//ProtoMinor:       0,
 		}
 
-		return responseBody, nil
+		return responseBody, err
 
 	}
 
