@@ -48,6 +48,9 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	}
 
 	response, err := client.Do(req.URL.String(), options, req.Method)
+	if err == nil && response.Status == 0 {
+		err = io.ErrUnexpectedEOF
+	}
 	//if err != nil {
 	//	return nil, err
 	//}
