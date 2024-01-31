@@ -8,7 +8,7 @@ import (
 )
 
 func TestRoundTripper(t *testing.T) {
-	u, _ := url.Parse("http://127.0.0.1:8888")
+	u, _ := url.Parse("socket5://127.0.0.1:8888")
 
 	c, _ := (&http.Client{
 		Transport: &Ja3RoundTripper{
