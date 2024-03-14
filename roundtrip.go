@@ -17,6 +17,7 @@ type Ja3RoundTripper struct {
 	HeaderOrder     []string `json:"headerOrder"`
 	Timeout         int      `json:"timeout"`
 	DisableRedirect bool     `json:"disableRedirect"`
+	Jar             http.CookieJar
 }
 
 func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Response, err error) {
@@ -29,6 +30,13 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 		Timeout:         receiver.Timeout,
 		DisableRedirect: receiver.DisableRedirect,
 		Headers:         make(map[string]string),
+		Cookies:         make([]cycletls.Cookie, 0),
+	}
+	if receiver.Jar != nil {
+		cookie := receiver.Jar.Cookies(req.URL)
+		for _, c := range cookie {
+			options.Cookies = append(options.Cookies, cycletls.Cookie{Name: c.Name, Value: c.Value})
+		}
 	}
 
 	if req.Body != nil {
