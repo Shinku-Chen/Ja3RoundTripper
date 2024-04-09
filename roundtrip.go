@@ -76,7 +76,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	{
 
 		responseBody := &http.Response{
-			Status:        "",
+			Status:        http.StatusText(response.Status),
 			StatusCode:    response.Status,
 			Header:        headers,
 			Body:          io.NopCloser(strings.NewReader(response.Body)),
