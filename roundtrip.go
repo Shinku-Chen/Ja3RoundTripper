@@ -11,27 +11,22 @@ import (
 )
 
 type Ja3RoundTripper struct {
-	Proxy           func(*http.Request) (*url.URL, error)
-	UserAgent       string
-	Ja3             string
-	HeaderOrder     []string `json:"headerOrder"`
-	Timeout         int      `json:"timeout"`
-	DisableRedirect bool     `json:"disableRedirect"`
-	Jar             http.CookieJar
+	cycletls.Options
+	ProxyFunc func(*http.Request) (*url.URL, error)
+	Jar       http.CookieJar
 }
 
 func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Response, err error) {
 	client := cycletls.Init()
 
-	options := cycletls.Options{
-		Ja3:             receiver.Ja3,
-		UserAgent:       receiver.UserAgent,
-		HeaderOrder:     receiver.HeaderOrder,
-		Timeout:         receiver.Timeout,
-		DisableRedirect: receiver.DisableRedirect,
-		Headers:         make(map[string]string),
-		Cookies:         make([]cycletls.Cookie, 0),
+	options := receiver.Options
+	if options.Headers == nil {
+		options.Headers = make(map[string]string)
 	}
+	if options.Cookies == nil {
+		options.Cookies = make([]cycletls.Cookie, 0)
+	}
+
 	if receiver.Jar != nil {
 		cookie := receiver.Jar.Cookies(req.URL)
 		for _, c := range cookie {
@@ -46,8 +41,8 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 			return nil, e
 		}
 	}
-	if receiver.Proxy != nil {
-		if p, e := receiver.Proxy(req); e == nil && p != nil {
+	if receiver.ProxyFunc != nil {
+		if p, e := receiver.ProxyFunc(req); e == nil && p != nil {
 			options.Proxy = p.String()
 		}
 	}
