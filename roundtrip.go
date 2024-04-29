@@ -76,6 +76,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 
 	{
 		delete(headers, "Content-Encoding")
+		req.URL, _ = url.Parse(response.FinalUrl)
 	}
 
 	{
