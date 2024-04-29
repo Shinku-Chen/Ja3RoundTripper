@@ -75,7 +75,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	}
 
 	{
-		delete(response.Headers, "Content-Encoding")
+		delete(headers, "Content-Encoding")
 	}
 
 	{
