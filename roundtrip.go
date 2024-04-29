@@ -73,6 +73,11 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	} else {
 		length = int64(len(response.Body))
 	}
+
+	{
+		delete(response.Headers, "Content-Encoding")
+	}
+
 	{
 
 		responseBody := &http.Response{
