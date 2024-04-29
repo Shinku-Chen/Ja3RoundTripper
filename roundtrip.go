@@ -85,7 +85,7 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 			//Close:            false,
 			//Uncompressed:     false,
 			//Trailer:          nil,
-			//Request:          nil,
+			Request: req,
 			//TLS:              nil,
 			//Proto:            "",
 			//ProtoMajor:       0,
