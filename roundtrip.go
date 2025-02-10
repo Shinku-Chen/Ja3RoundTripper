@@ -55,9 +55,9 @@ func (receiver *Ja3RoundTripper) RoundTrip(req *http.Request) (resp *http.Respon
 	if err == nil && (response.Status == 0 || (len(response.Headers) == 0 && response.Cookies == nil)) {
 		err = errors.New(response.Body)
 	}
-	//if err != nil {
-	//	return nil, err
-	//}
+	if err != nil {
+		return nil, err
+	}
 
 	headers := make(http.Header)
 
